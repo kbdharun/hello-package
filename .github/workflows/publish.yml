@@ -1,18 +1,29 @@
 #publish your docker image to github container registry
 name: publish
 on: [push]
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 jobs:
   publish-hello-docker-image:
     runs-on: ubuntu-latest
+    permissions:
+     contents: read
+     packages: write
+    
     steps:
-      - uses: actions/checkout@v2
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-                echo ${{secrets.TOKEN}} | docker login ghcr.io -u kbdharun --password-stdin
-      - name: Build the hello-docker Docker image
-        run: |
+     - name: Checkout repository
+       uses: actions/checkout@v3
+       
+     - name: Log in to the Container registry
+       uses: docker/login-action@v2
+       with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        
+     - name: Build and push Docker image
+       run: |
           docker build . --tag ghcr.io/kbdharun/hello-package:latest
           docker run ghcr.io/kbdharun/hello-package:latest
           docker push ghcr.io/kbdharun/hello-package:latest
