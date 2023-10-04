@@ -14,6 +14,6 @@ jobs:
 
      - name: Build and push to ghcr
        run: |
-          echo ${{ secrets.GITEA_TOKEN }} | docker login --username kbdharun --password-stdin
+          echo ${{ secrets.GITEA_TOKEN }} | docker login --username kbdharun --password-stdin git.kbdharun.dev
           docker build . --tag git.kbdharun.dev/kbdharun/hello-package:latest
           docker push git.kbdharun.dev/kbdharun/hello-package:latest
