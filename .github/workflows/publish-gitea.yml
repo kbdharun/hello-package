@@ -1,6 +1,8 @@
 name: Build and Publish (gitea)
 on:
     workflow_dispatch:
+env:
+    token: ${{ secrets.GITEA_TOKEN }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,6 +16,6 @@ jobs:
 
      - name: Build and push to ghcr
        run: |
-          echo "$GITEA_TOKEN" | docker login --username kbdharun --password-stdin
+          echo "${GITEA_TOKEN}" | docker login --username kbdharun --password-stdin
           docker build . --tag git.kbdharun.dev/kbdharun/hello-package:latest
           docker push git.kbdharun.dev/kbdharun/hello-package:latest
