@@ -1,0 +1,28 @@
+name: Build and Publish
+on:
+    workflow_dispatch:
+env:
+  REGISTRY: git.kbdharun.dev
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+     contents: read
+     packages: write
+
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v3
+
+     - name: Log in to the Container registry
+       uses: docker/login-action@v2
+       with:
+          registry: ${{ env.REGISTRY }}
+          username: kbdharun
+          password: ${{ secrets.GITEA_TOKEN }}
+
+     - name: Build and push to ghcr
+       run: |
+          docker build . --tag git.kbdharun.dev/kbdharun/hello-package:latest
+          docker run git.kbdharun.dev/kbdharun/hello-package:latest
+          docker push git.kbdharun.dev/kbdharun/hello-package:latest
