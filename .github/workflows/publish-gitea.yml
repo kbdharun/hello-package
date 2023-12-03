@@ -10,7 +10,7 @@ jobs:
        uses: actions/checkout@v4
 
      - name: Login to the Container registry
-       run: docker login git.kbdharun.dev -u kbdharun -p ${{ secrets.GITEA_TOKEN }}
+       run: docker login https://git.kbdharun.dev -u kbdharun -p ${{ secrets.GITEA_TOKEN }}
 
      - name: Build and push to GHCR
        run: |
