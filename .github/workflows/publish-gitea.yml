@@ -1,0 +1,23 @@
+name: Build and Publish (Gitea)
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v4
+
+     - name: Login to the Container registry
+       uses: docker/login-action@v3
+       with:
+          registry: git.kbdharun.dev
+          username: kbdharun
+          password: ${{ secrets.GITEA_TOKEN }}
+
+     - name: Build and push to GHCR
+       run: |
+          docker build . --tag git.kbdharun.dev/kbdharun/hello-package:latest
+          docker run git.kbdharun.dev/kbdharun/hello-package:latest
+          docker push git.kbdharun.dev/kbdharun/hello-package:latest
