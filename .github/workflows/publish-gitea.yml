@@ -4,13 +4,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
      - name: Checkout repository
        uses: actions/checkout@v4
 
      - name: Login to the Container registry
-       run: docker login https://git.kbdharun.dev -u kbdharun -p ${{ secrets.GITEA_TOKEN }}
+       run: echo "${{ secrets.GITEA_TOKEN }}" | docker login git.kbdharun.dev -u kbdharun --password-stdin
 
      - name: Build and push to GHCR
        run: |
