@@ -34,7 +34,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/hello-package:latest
             ghcr.io/kbdharun/hello-package:latest
