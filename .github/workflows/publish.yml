@@ -57,10 +57,3 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64
           provenance: false
-      - name: Attest pushed image
-        uses: actions/attest-build-provenance@v1
-        id: attest
-        with:
-          subject-name: ghcr.io/kbdharun/hello-package
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: false
