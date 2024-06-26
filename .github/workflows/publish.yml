@@ -7,6 +7,10 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write # Allow pushing images to GHCR
+      attestations: write # To create and write attestations
+      id-token: write # Additional permissions for the persistence of the attestations
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -48,4 +52,14 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/hello-package:latest
             ghcr.io/kbdharun/hello-package:latest
             quay.io/kbdharun/hello-package:latest
-        
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+          provenance: false
+      - name: Attest pushed image
+        uses: actions/attest-build-provenance@v1
+        id: attest
+        with:
+          subject-name: ghcr.io/kbdharun/hello-package:latest
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: false
