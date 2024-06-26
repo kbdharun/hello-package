@@ -60,6 +60,6 @@ jobs:
         uses: actions/attest-build-provenance@v1
         id: attest
         with:
-          subject-name: ghcr.io/kbdharun/hello-package:latest
+          subject-name: ghcr.io/kbdharun/hello-package
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: false
