@@ -43,6 +43,7 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_TOKEN }}  
       - name: Build and push
+        id: push
         uses: docker/build-push-action@v5
         with:
           context: .
